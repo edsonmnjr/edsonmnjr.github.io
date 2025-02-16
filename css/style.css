@@ -1,0 +1,305 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+a { 
+    color: #FFF; /* Links brancos */
+}
+
+img { 
+    max-width: 100%; 
+}
+
+p { 
+    font-size: 1.2em; 
+    line-height: 1.4em; 
+    color: #FFF; /* Texto branco */
+}
+
+h2 { 
+    color: #FFF; /* Texto branco */
+    font-size: 1.5em; /* Tamanho maior para o nome */
+    white-space: nowrap; /* Evita que o nome seja cortado */
+}
+
+.container {
+    width: 960px;
+    margin: 0 auto;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    background-color: #000; /* Fundo preto */
+    color: #FFF; /* Texto branco */
+}
+
+header {
+    width: 100%;
+    background-color: #141A28;
+}
+
+.branch, .branch img {
+    width: 90px;
+    border-radius: 50%;
+}
+
+.menu ul { 
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu .menu-link {
+    display: block;
+    margin: 10px;
+    padding: 8px;
+    color: #E9F3FE;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    transition: all .3s ease-in-out;
+}
+
+.menu .menu-link:hover { 
+    opacity: .75; 
+}
+
+main { 
+    width: 100%; 
+}
+
+.super-card {
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    align-items: center; /* Centraliza verticalmente */
+}
+
+.super-card-img { 
+    width: 300px; /* Largura fixa para a seção da foto */
+    text-align: center; /* Centraliza a foto e o nome */
+}
+
+.super-card-img img {
+    width: 200px; /* Tamanho maior para a foto */
+    height: 200px; /* Mantém a proporção */
+    border-radius: 50%; /* Foto redonda */
+    object-fit: cover; /* Garante que a foto não fique distorcida */
+}
+
+.super-card-img h2 { 
+    margin-top: 20px; 
+    font-size: 1.5em; /* Tamanho maior para o nome */
+    white-space: nowrap; /* Evita que o nome seja cortado */
+}
+
+.super-card-text { 
+    margin-left: 40px; 
+    max-width: 700px; /* Limita a largura do texto */
+    text-align: justify; /* Justifica o texto */
+}
+
+.super-card-text p + p { 
+    margin-top: 1em; 
+}
+
+/* Estilos para cards (se necessário) */
+.card {
+    max-width: 350px;
+    min-height: 500px;
+    border-radius: 3px;
+    margin: 1em;
+    background-color: #333; /* Fundo escuro para cards */
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, .15);
+    transition: all .3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover { 
+    box-shadow: 30px 30px 5px 0px rgba(0, 0, 0, .15); 
+}
+
+.card-img { 
+    padding: 1em; 
+}
+
+.img-body, .img-body img {
+    width: 200px;
+    display: table;
+    margin: 0 auto; 
+    border-radius: 50%;
+}
+
+.card-body { 
+    padding: 1em; 
+}
+
+.card-body p {
+    color: #FFF; /* Texto branco */
+    line-height: 1.4em;
+}
+
+.card-body p + p { 
+    margin-top: .5em; 
+}
+
+.card-button {
+    width: 100%;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 1em;
+    background-color: #141A28;
+    display: flex;
+    justify-content: center;
+}
+
+.card-button button {
+    width: 250px;
+    padding: 1em;
+    border: none;
+    border-radius: 3px;
+    background-image: linear-gradient(to right bottom, #412e82, #393581, #333b7e, #2f407a, #2f4475);
+    color: #E9F3FE;
+    font-size: 1.2em;
+    text-transform: capitalize;
+    transition: all .3s ease-in-out;
+}
+
+.card-button button:hover {
+    cursor: pointer;
+    opacity: .75;
+}
+
+.sub-title { 
+    margin: 20px auto; 
+}
+
+.li-ornament { 
+    margin: 10px 0; 
+}
+
+.li-ornament::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 12px;
+    margin-right: 10px;
+    background-color: #FFF; /* Cor branca para o ornament */
+    border-radius: 5px;
+}
+
+.contact-link { 
+    color: #FFF; /* Links brancos */
+}
+
+.map { 
+    margin: 20px 0; 
+}
+
+/* Estilos específicos para a página de pesquisa */
+.research-section {
+    margin-bottom: 40px; /* Espaçamento entre as seções */
+    width: 100%; /* Garante que a seção ocupe toda a largura */
+}
+
+.research-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #FFF; /* Título branco */
+}
+
+.research-section ol {
+    list-style-type: decimal; /* Números na lista */
+    padding-left: 40px; /* Espaçamento para a lista */
+}
+
+.research-section li {
+    margin-bottom: 15px; /* Espaçamento entre os itens da lista */
+    color: #FFF; /* Texto branco */
+}
+
+.research-section a {
+    color: #1E90FF; /* Cor azul para links */
+    text-decoration: none;
+}
+
+.research-section a:hover {
+    text-decoration: underline; /* Sublinhado ao passar o mouse */
+}
+
+research-section ol {
+    padding-left: 20px; /* Adiciona recuo na lista */
+    list-style-position: outside; /* Mantém os números fora do texto */
+}
+
+research-section ol li {
+    margin-bottom: 10px; /* Adiciona espaço entre os itens da lista */
+    display: list-item; /* Garante que os itens fiquem em blocos separados */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main h2, main h3 {
+    text-align: left;
+    color: #FFF;
+}
+
+main h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+main h3 {
+    font-size: 2em;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+.publicacoes ol {
+    padding-left: 20px;
+}
+
+.publicacoes ol li {
+    text-align: justify;
+    margin-bottom: 20px;  /* Espaço entre cada item */
+}
+
+.publicacoes a {
+    color: #0066cc;  /* Cor dos links */
+    text-decoration: none;
+}
+
+.publicacoes a:hover {
+    text-decoration: underline;
+}
+
+.publicacoes p {
+    text-align: justify;
+    margin-bottom: 15px;
+}
