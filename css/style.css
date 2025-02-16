@@ -346,24 +346,6 @@ header {
 
 /* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
-    .super-card {
-        flex-direction: column; /* Coloca os elementos em uma coluna */
-        align-items: center; /* Centraliza os elementos */
-        text-align: center; /* Centraliza o texto */
-    }
-
-    .super-card-img {
-        margin-right: 0; /* Remove a margem à direita */
-        margin-bottom: 20px; /* Adiciona espaço abaixo da foto */
-    }
-
-    .super-card-text {
-        max-width: 100%; /* Ocupa toda a largura disponível */
-    }
-}
-
-/* Estilos para telas menores (celulares) */
-@media (max-width: 768px) {
     .container {
         width: 100%;
         padding: 10px;
