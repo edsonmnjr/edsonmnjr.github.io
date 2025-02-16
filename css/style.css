@@ -303,3 +303,81 @@ main h3 {
     text-align: justify;
     margin-bottom: 15px;
 }
+
+/* Estilos gerais (para todas as telas) */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #000;
+    color: #FFF;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: #141A28;
+    padding: 10px 0;
+}
+
+.menu ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+}
+
+.menu .menu-link {
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 10px;
+    transition: opacity 0.3s ease;
+}
+
+.menu .menu-link:hover {
+    opacity: 0.75;
+}
+
+/* Estilos para telas menores (celulares) */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    header {
+        padding: 5px 0;
+    }
+
+    .menu ul {
+        flex-direction: column; /* Coloca os itens do menu em uma coluna */
+        align-items: center; /* Centraliza os itens */
+    }
+
+    .menu .menu-link {
+        padding: 5px;
+        font-size: 0.9em; /* Reduz o tamanho da fonte */
+    }
+
+    h1 {
+        font-size: 1.8em; /* Reduz o tamanho do título principal */
+    }
+
+    h2 {
+        font-size: 1.5em; /* Reduz o tamanho dos subtítulos */
+    }
+
+    .research-section ol {
+        padding-left: 20px; /* Reduz o recuo da lista numerada */
+    }
+
+    .research-section li {
+        margin-bottom: 10px; /* Reduz o espaçamento entre os itens da lista */
+    }
+}
