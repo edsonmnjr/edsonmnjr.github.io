@@ -355,50 +355,55 @@ header {
         padding: 5px 0;
     }
 
+    /* Menu na horizontal */
     .menu ul {
-        flex-direction: column; /* Coloca os itens do menu em uma coluna */
-        align-items: center; /* Centraliza os itens */
+        flex-direction: row; /* Itens do menu na horizontal */
+        justify-content: center;
+        gap: 10px; /* Espaçamento entre os itens */
     }
 
     .menu .menu-link {
-        padding: 10px; /* Aumenta o padding para melhor toque */
-        font-size: 1em; /* Tamanho da fonte */
-        margin: 5px 0; /* Espaçamento entre os itens */
+        padding: 5px 10px;
+        font-size: 0.9em;
+        margin: 0; /* Remove margens adicionais */
     }
 
+    /* Centralizando foto, nome e texto */
     .super-card {
         flex-direction: column; /* Coloca a foto e o texto em coluna */
-        align-items: center; /* Centraliza os itens */
-        text-align: center; /* Centraliza o texto */
+        align-items: center;
+        text-align: center;
     }
 
     .super-card-img {
-        width: 100%; /* Largura total */
-        margin-bottom: 20px; /* Espaçamento abaixo da foto */
+        width: auto;
+        margin-bottom: 10px;
     }
 
     .super-card-img img {
-        width: 150px; /* Tamanho menor para a foto */
-        height: 150px; /* Mantém a proporção */
+        width: 120px; /* Tamanho adequado para celular */
+        height: 120px;
+        border-radius: 50%;
+    }
+
+    .super-card-img h2 {
+        font-size: 1.2em;
+        margin-top: 10px;
     }
 
     .super-card-text {
-        margin-left: 0; /* Remove a margem à esquerda */
-        max-width: 100%; /* Largura total */
-        text-align: justify; /* Justifica o texto */
-        padding: 0 10px; /* Adiciona um pouco de padding nas laterais */
-    }
-
-    h2 {
-        font-size: 1.5em; /* Tamanho do nome */
-        margin-top: 10px; /* Espaçamento acima do nome */
+        margin-left: 0;
+        max-width: 100%;
+        padding: 0 15px;
+        text-align: justify;
     }
 
     p {
-        font-size: 1em; /* Tamanho do texto */
-        line-height: 1.6em; /* Espaçamento entre linhas */
+        font-size: 0.95em;
+        line-height: 1.5em;
     }
 }
+
     .research-section li {
         margin-bottom: 10px; /* Reduz o espaçamento entre os itens da lista */
     }
