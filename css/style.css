@@ -361,22 +361,44 @@ header {
     }
 
     .menu .menu-link {
-        padding: 5px;
-        font-size: 0.9em; /* Reduz o tamanho da fonte */
+        padding: 10px; /* Aumenta o padding para melhor toque */
+        font-size: 1em; /* Tamanho da fonte */
+        margin: 5px 0; /* Espaçamento entre os itens */
     }
 
-    h1 {
-        font-size: 1.8em; /* Reduz o tamanho do título principal */
+    .super-card {
+        flex-direction: column; /* Coloca a foto e o texto em coluna */
+        align-items: center; /* Centraliza os itens */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .super-card-img {
+        width: 100%; /* Largura total */
+        margin-bottom: 20px; /* Espaçamento abaixo da foto */
+    }
+
+    .super-card-img img {
+        width: 150px; /* Tamanho menor para a foto */
+        height: 150px; /* Mantém a proporção */
+    }
+
+    .super-card-text {
+        margin-left: 0; /* Remove a margem à esquerda */
+        max-width: 100%; /* Largura total */
+        text-align: justify; /* Justifica o texto */
+        padding: 0 10px; /* Adiciona um pouco de padding nas laterais */
     }
 
     h2 {
-        font-size: 1.5em; /* Reduz o tamanho dos subtítulos */
+        font-size: 1.5em; /* Tamanho do nome */
+        margin-top: 10px; /* Espaçamento acima do nome */
     }
 
-    .research-section ol {
-        padding-left: 20px; /* Reduz o recuo da lista numerada */
+    p {
+        font-size: 1em; /* Tamanho do texto */
+        line-height: 1.6em; /* Espaçamento entre linhas */
     }
-
+}
     .research-section li {
         margin-bottom: 10px; /* Reduz o espaçamento entre os itens da lista */
     }
