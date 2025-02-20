@@ -355,17 +355,18 @@ header {
         padding: 5px 0;
     }
 
+    /* Menu na horizontal */
     .menu ul {
-        flex-wrap: wrap; /* Permite que os itens quebrem para uma nova linha */
+        flex-direction: row; /* Itens do menu na horizontal */
         justify-content: center;
-        gap: 5px;
+        gap: 10px; /* Espaçamento entre os itens */
     }
 
     .menu .menu-link {
-        font-size: 0.8em; /* Reduz o tamanho do texto do menu */
-        padding: 5px; /* Reduz o espaçamento interno */
+        padding: 5px 10px;
+        font-size: 0.9em;
+        margin: 0; /* Remove margens adicionais */
     }
-}
 
     /* Centralizando foto, nome e texto */
     .super-card {
