@@ -5,18 +5,12 @@
 /* Layout: dos barras grandes (señales y capacidades) arriba, una decisión por pantalla.
    Tema: tinta sobre gris frío con un azul cobalto para lo que se decide. */
 :root{
-  --bg:#E8EBEF; --card:#F6F7F9; --ink:#0C0F14; --mute:#5A626E; --line:#BFC5CE;
-  --cobalt:#2338D6; --cobalt-ink:#FFFFFF; --warn:#B3261E; --ok:#1E6B45; --hatch:#9AA2AE;
+  --bg:#0E1116; --card:#171B22; --ink:#ECEFF4; --mute:#9AA3B0; --line:#2C333D;
+  --cobalt:#7C8DFF; --cobalt-ink:#0B0F2E; --warn:#FF8A80; --ok:#6FD3A0; --hatch:#4A5360; color-scheme:dark;
   --font-display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
   --font-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0E1116; --card:#171B22; --ink:#ECEFF4; --mute:#9AA3B0; --line:#2C333D;
-  --cobalt:#7C8DFF; --cobalt-ink:#0B0F2E; --warn:#FF8A80; --ok:#6FD3A0; --hatch:#4A5360; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0E1116; --card:#171B22; --ink:#ECEFF4; --mute:#9AA3B0; --line:#2C333D;
-  --cobalt:#7C8DFF; --cobalt-ink:#0B0F2E; --warn:#FF8A80; --ok:#6FD3A0; --hatch:#4A5360; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:19px;line-height:1.5;padding-inline:16px;padding-block:16px 40px}
 .wrap{max-width:900px;margin-inline:auto;display:flex;flex-direction:column;gap:18px}
@@ -80,9 +74,11 @@ button{font:inherit;cursor:pointer;color:inherit}
 .opt .t{font-weight:700;display:block}
 .opt .d{display:block;font-size:.88em;opacity:.85;margin-top:2px}
 .result{display:flex;flex-direction:column;gap:12px;border-top:3px solid var(--ink);padding-top:14px}
-.reading{background:var(--ink);color:var(--bg);padding:14px 16px}
-.reading .kicker{color:inherit;opacity:.7}
-.reading p{margin-top:4px}
+.reading{background:var(--card);border:1.5px solid var(--line);border-left:6px solid var(--cobalt);padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px}
+.reading .rh{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.reading .tag{font:700 12px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;background:var(--cobalt);color:var(--cobalt-ink);padding:4px 9px}
+.reading .picked-t{font:600 14px var(--font-body);color:var(--mute)}
+.reading .rt{font-size:1.04em;line-height:1.55;max-width:62ch}
 .warnbox{border:1.5px solid var(--warn);padding:10px 14px;color:var(--ink)}
 .primary{background:var(--cobalt);color:var(--cobalt-ink);border:0;padding:13px 22px;font:700 17px var(--font-body)}
 .primary:hover{filter:brightness(1.1)}
@@ -123,7 +119,7 @@ footer{font-size:.78em;color:var(--mute);max-width:72ch}
       </div>
       <p class="txt"><b>Punto de partida.</b> El caso ya circula (algo de señales) y todavía no hay organización (capacidades en cero). La idea es que las señales valen más cuando hay capacidades que las respaldan.</p>
       <p class="txt"><b>El tiempo cuesta.</b> Construir capacidades lleva días o semanas. Si algo tarda 14 días o más, la atención pública se enfría y las señales bajan un punto.</p>
-      <p class="txt"><b>Cómo se juega.</b> Son tres decisiones con tres opciones (A, B, C). La sala entera funciona como un solo grupo: conversan y deciden por consenso qué opción elegir. Quien modera la marca. No hay respuesta correcta.</p>
+      <p class="txt"><b>Cómo se juega.</b> Son tres decisiones con tres opciones (A, B, C). La sala entera funciona como un solo grupo: conversan y deciden por consenso qué opción elegir.</p>
       <button class="primary" id="startBtn">Empezar</button>
     </div>
   </section>
@@ -236,7 +232,7 @@ function choose(i){
   Array.prototype.forEach.call(document.querySelectorAll(".opt"),function(b,j){b.disabled=true;if(j===i)b.classList.add("picked");});
   meterHTML(dl);
   var last=step===R.length-1;
-  $("after").innerHTML='<div class="result"><div class="reading"><div class="kicker">Lectura del curso</div><p>'+o.r+'</p></div>'+note+
+  $("after").innerHTML='<div class="result"><div class="reading"><div class="rh"><span class="tag">Lectura del curso</span><span class="picked-t">Opción '+L[i]+'</span></div><p class="rt">'+o.r+'</p></div>'+note+
    '<div class="row"><button class="primary" id="nextBtn">'+(last?'Ver cómo termina':'Siguiente decisión')+'</button><button class="ghost" id="undoBtn">Cambiar la elección</button></div></div>';
   $("undoBtn").addEventListener("click",function(){st=snap.st;picks.length=snap.n;showRound();});
   $("nextBtn").addEventListener("click",function(){last?finish():(step++,showRound())});
