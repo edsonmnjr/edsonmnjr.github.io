@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"></head><body>
+<title>Del Hashtag a la Mesa</title>
+<style>
+/* Layout: dos barras grandes (señales y capacidades) arriba, una decisión por pantalla.
+   Tema: tinta sobre gris frío con un azul cobalto para lo que se decide. */
+:root{
+  --bg:#E8EBEF; --card:#F6F7F9; --ink:#0C0F14; --mute:#5A626E; --line:#BFC5CE;
+  --cobalt:#2338D6; --cobalt-ink:#FFFFFF; --warn:#B3261E; --ok:#1E6B45; --hatch:#9AA2AE;
+  --font-display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --font-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1116; --card:#171B22; --ink:#ECEFF4; --mute:#9AA3B0; --line:#2C333D;
+  --cobalt:#7C8DFF; --cobalt-ink:#0B0F2E; --warn:#FF8A80; --ok:#6FD3A0; --hatch:#4A5360; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1116; --card:#171B22; --ink:#ECEFF4; --mute:#9AA3B0; --line:#2C333D;
+  --cobalt:#7C8DFF; --cobalt-ink:#0B0F2E; --warn:#FF8A80; --ok:#6FD3A0; --hatch:#4A5360; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:19px;line-height:1.5;padding-inline:16px;padding-block:16px 40px}
+.wrap{max-width:900px;margin-inline:auto;display:flex;flex-direction:column;gap:18px}
+h1,h2{font-family:var(--font-display);margin:0;text-wrap:balance;line-height:1.08}
+h1{font-size:clamp(30px,6vw,46px);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(24px,4vw,34px);font-weight:800}
+p{margin:0}
+.kicker{font:500 13px/1.2 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer;color:inherit}
+.chip{border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:6px 14px;font:600 14px var(--font-body)}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px}
+.panel{background:var(--card);border:1.5px solid var(--ink);padding:20px}
+.meters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border:1.5px solid var(--ink);
+  padding:14px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr)) auto;gap:10px 20px;align-items:end}
+@media(max-width:620px){
+  body{font-size:16.5px;padding-inline:14px}
+  .wrap{gap:14px}
+  .panel{padding:16px}
+  .meters{grid-template-columns:1fr 1fr;padding:10px 12px;gap:8px 14px}
+  .meters .sub{display:none}
+  .m-head{font-size:11.5px}.m-head b{font-size:18px}
+  .track{height:12px;margin-top:4px}
+  .days{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;text-align:left;border-top:1px solid var(--line);padding-top:6px}
+  .days b{font-size:20px;display:inline}
+  .days span{font-size:11.5px}
+  .opt{grid-template-columns:34px 1fr;gap:12px;padding:13px}
+  .opt .L{width:34px;height:34px;font-size:17px}
+  .primary,.ghost{width:100%;padding:14px 16px}
+  .row{flex-direction:column;align-items:stretch}
+  h2{font-size:24px}
+}
+.m-head{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font:600 13px var(--font-mono);text-transform:uppercase;letter-spacing:.05em}
+.m-head b{font-size:20px}
+.sub{font:500 12px var(--font-mono);color:var(--mute);margin-top:2px}
+.track{position:relative;height:16px;background:var(--bg);border:1.5px solid var(--ink);margin-top:6px}
+.fill{position:absolute;inset:0 auto 0 0;transition:width .5s}
+.fill.sen{background:repeating-linear-gradient(135deg,var(--hatch) 0 4px,transparent 4px 8px)}
+.fill.cap{background:var(--cobalt)}
+.delta{font:600 13px var(--font-mono);margin-left:6px}
+.delta.up{color:var(--ok)} .delta.down{color:var(--warn)}
+.days{text-align:right}
+.days b{font:800 30px var(--font-display);display:block;line-height:1}
+.days span{font:500 12px var(--font-mono);color:var(--mute)}
+.scene{display:flex;flex-direction:column;gap:12px}
+.scene p.txt{max-width:64ch;font-size:1.05em}
+.concept{border-left:4px solid var(--cobalt);padding:6px 14px;font-size:.92em;background:var(--bg)}
+.defs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:620px){.defs{grid-template-columns:1fr}}
+.def{border:1.5px solid var(--ink);padding:12px 14px;background:var(--bg)}
+.def h3{font:800 18px var(--font-display);margin:0 0 4px}
+.def p{font-size:.9em}
+.hint{border:1.5px dashed var(--cobalt);padding:10px 14px;font-size:.88em}
+.opts{display:grid;gap:12px;margin-top:4px}
+.opt{display:grid;grid-template-columns:40px 1fr;gap:14px;text-align:left;background:var(--card);border:1.5px solid var(--ink);padding:16px;align-items:start;min-width:0}
+.opt:hover:not(:disabled){background:var(--ink);color:var(--bg)}
+.opt:disabled{cursor:default;opacity:.5}
+.opt.picked{opacity:1;background:var(--cobalt);color:var(--cobalt-ink);border-color:var(--cobalt)}
+.opt .L{font:800 20px var(--font-display);border:1.5px solid currentColor;width:40px;height:40px;display:grid;place-items:center}
+.opt .t{font-weight:700;display:block}
+.opt .d{display:block;font-size:.88em;opacity:.85;margin-top:2px}
+.result{display:flex;flex-direction:column;gap:12px;border-top:3px solid var(--ink);padding-top:14px}
+.reading{background:var(--ink);color:var(--bg);padding:14px 16px}
+.reading .kicker{color:inherit;opacity:.7}
+.reading p{margin-top:4px}
+.warnbox{border:1.5px solid var(--warn);padding:10px 14px;color:var(--ink)}
+.primary{background:var(--cobalt);color:var(--cobalt-ink);border:0;padding:13px 22px;font:700 17px var(--font-body)}
+.primary:hover{filter:brightness(1.1)}
+.ghost{background:transparent;border:1.5px solid var(--ink);padding:11px 18px;font:600 16px var(--font-body)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.steps{display:flex;gap:6px}
+.steps span{flex:1;height:6px;background:var(--line)}
+.steps span.on{background:var(--ink)} .steps span.cur{background:var(--cobalt)}
+.end h2{font-size:clamp(30px,6vw,48px)}
+.end .why{max-width:64ch}
+.path{display:flex;gap:6px;flex-wrap:wrap}
+.path span{border:1.5px solid var(--ink);padding:4px 10px;font:700 15px var(--font-mono)}
+.q li{margin-bottom:6px}
+footer{font-size:.78em;color:var(--mute);max-width:72ch}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=Public+Sans:wght@400;600;700&display=swap">
+
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="kicker">Debates Políticos Contemporáneos</div>
+      <h1>Del Hashtag a la Mesa</h1>
+    </div>
+    <div class="tools"><button class="chip" id="resetBtn">Reiniciar</button></div>
+  </div>
+
+  <div class="meters" id="meters" aria-live="polite"></div>
+
+  <section class="panel" id="intro">
+    <div class="scene">
+      <h2>Una indignación se volvió tendencia. ¿Y ahora?</h2>
+      <p class="txt">Un caso de abuso policial circula en redes y la gente quiere hacer algo. La sala dirige ese movimiento naciente. Para medir lo que pasa usamos dos ideas de Tufekci:</p>
+      <div class="defs">
+        <div class="def"><h3>Señales</h3><p>Lo que la protesta le comunica al poder y a la opinión pública: tamaño, visibilidad, «mira cuánta gente hay». Ejemplo: una multitud, un hashtag en tendencia.</p></div>
+        <div class="def"><h3>Capacidades</h3><p>Lo que el movimiento puede hacer de verdad: decidir en grupo, sostener una campaña larga, cambiar de táctica, negociar. Ejemplo: comités, asambleas, voceros, redes de confianza.</p></div>
+      </div>
+      <p class="txt"><b>Punto de partida.</b> El caso ya circula (algo de señales) y todavía no hay organización (capacidades en cero). La idea es que las señales valen más cuando hay capacidades que las respaldan.</p>
+      <p class="txt"><b>El tiempo cuesta.</b> Construir capacidades lleva días o semanas. Si algo tarda 14 días o más, la atención pública se enfría y las señales bajan un punto.</p>
+      <p class="txt"><b>Cómo se juega.</b> Son tres decisiones con tres opciones (A, B, C). La sala entera funciona como un solo grupo: conversan y deciden por consenso qué opción elegir. Quien modera la marca. No hay respuesta correcta.</p>
+      <button class="primary" id="startBtn">Empezar</button>
+    </div>
+  </section>
+
+  <section class="panel" id="round" hidden></section>
+  <section class="panel end" id="end" hidden></section>
+
+  <footer>Simulación didáctica basada en los conceptos de Tufekci (capacidades y señales, censura por saturación, líderes de facto) y de Coronel y Donoso (protesta y partidos). El movimiento, las cifras y los resultados son inventados.</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var M0={sen:2,cap:0,dias:0};
+
+/* ============ EDITAR AQUÍ: situaciones y opciones ============
+   t = título, k = etiqueta, s = situación, c = concepto (explicación), q = pregunta de fondo.
+   Cada opción: t = título, d = descripción, m = efectos (sen, cap, dias), r = lectura del curso. */
+var R=[
+{t:"Convocatoria",k:"Decisión 1 de 3 · El primer paso",
+ s:"Un caso de abuso policial se vuelve viral. Miles de personas escriben indignadas y quieren hacer algo. Tienen un fin de semana para decidir cómo convocar.",
+ c:"Antes, una marcha enorme era una señal creíble porque exigía mucha organización. Hoy un hashtag puede mostrar tamaño sin esa organización detrás.",
+ q:"¿Qué se gana y qué se pierde cuando convocar es instantáneo?",
+ o:[
+ {t:"Hashtag y video viral",d:"En horas hay una multitud en redes y en la plaza.",m:{sen:5,cap:0,dias:1},
+  r:"Tufekci: internet es como un sherpa que te sube al Everest sin que hayas entrenado. La protesta escala rápido, pero sin la musculatura que da la organización lenta."},
+ {t:"Comités barriales con tareas concretas",d:"Pocos al inicio, pero cada comité sabe qué hacer.",m:{sen:1,cap:3,dias:30},
+  r:"Montgomery en 1955 se organizó con 52.000 panfletos mimeografiados y 325 autos coordinados durante 381 días. Esa tarea tediosa construyó confianza y capacidad de decisión colectiva."},
+ {t:"Hashtag que lleva a asambleas",d:"Se usa la viralidad como puerta de entrada, no como destino.",m:{sen:3,cap:1,dias:7},
+  r:"Es el equilibrio que Tufekci propone: ni ciberutopía ni slacktivismo. Las redes sirven para encontrar a quienes piensan parecido, y luego hay que construir algo."}
+ ]},
+{t:"Saturación",k:"Decisión 2 de 3 · La respuesta del poder",
+ s:"El gobierno no bloquea internet. Inunda las redes con rumores, cuentas falsas y videos contradictorios. Tu mensaje se pierde entre el ruido y la gente empieza a dudar.",
+ c:"Censura por saturación: en vez de bloquear la información, el poder produce tanto ruido y duda que la atención se dispersa.",
+ q:"¿Cómo se protege un movimiento cuando no lo callan sino que lo ahogan?",
+ o:[
+ {t:"Publicar más y más fuerte",d:"Volumen contra volumen.",m:{sen:-1,cap:0,dias:1},
+  r:"Tufekci: la censura del siglo XXI no bloquea, satura. Competir en ruido con quien controla más ruido es una carrera que el movimiento suele perder."},
+ {t:"Reunirse en persona, en redes de confianza",d:"Más lento, pero nadie puede inundar una asamblea.",m:{sen:0,cap:2,dias:14},
+  r:"Las capacidades dan resiliencia: la posibilidad de sobrevivir a la represión y de cambiar de táctica cuando algo sale mal, dice Tufekci."},
+ {t:"Contratar publicidad e influencers",d:"Recupera visibilidad con dinero y seguidores.",m:{sen:2,cap:-1,dias:2},
+  r:"La visibilidad se compra o se presta, pero depende de plataformas y de personas que nadie eligió. No construye la musculatura propia del movimiento."}
+ ]},
+{t:"La mesa",k:"Decisión 3 de 3 · «¿Con quién hablamos?»",
+ s:"El gobierno, sorprendido por la presión, ofrece una mesa de diálogo y pregunta quién habla en nombre del movimiento. Esta noche hay que responder.",
+ c:"Líderes de facto: sin dirigentes elegidos, igual aparecen voceros con muchos seguidores. Congelamiento táctico: sin estructura para decidir, el movimiento no logra cambiar de estrategia ni negociar.",
+ q:"¿Quién habla en nombre de quienes se declaran sin líderes?",
+ o:[
+ {t:"Rechazar toda mediación: todo o nada",d:"Mantiene la pureza y la presión.",m:{sen:1,cap:-1,dias:3},
+  r:"Coronel y Donoso describen una radicalización fragmentada: colectivos horizontales que rechazan la mediación partidaria y operan con lógica de todo o nada, sin canales para sostener el cambio."},
+ {t:"Voceros elegidos en asamblea",d:"Legitimidad propia, con mandato revocable.",m:{sen:0,cap:2,dias:7},
+  alt:{sen:0,cap:-1,dias:7},cond:function(s){return s.cap>=3;},
+  r:"Tufekci dice que los movimientos en red se declaran sin líderes pero, a la hora de negociar, el poder no sabe con quién hablar. Tener voceros con mandato resuelve el congelamiento táctico."},
+ {t:"Que hablen quienes tienen más seguidores",d:"Rápido. Nadie los eligió.",m:{sen:1,cap:-1,dias:1},
+  r:"Tufekci: surgen líderes de facto, con muchos seguidores y sin mandato. Cuando llega el momento de negociar, esa falta de legitimidad se paga."}
+ ]}
+];
+
+/* ============ EDITAR AQUÍ: finales (n = nombre, c = autor, w = texto) ============ */
+var END={
+ todo:{n:"Todo o nada",c:"Coronel y Donoso",
+  w:"Rechazaron toda mediación y la presión se fue agotando. Coronel y Donoso muestran cómo la protesta que rechaza partidos e instituciones puede terminar en desmovilización, y abrir espacio a quienes se presentan como los verdaderos rebeldes."},
+ plaza:{n:"Plaza llena, mesa vacía",c:"Tufekci",
+  w:"Muchas señales, pocas capacidades. El movimiento llenó la plaza, pero no tiene cómo negociar ni cambiar de táctica cuando algo falla. Es el patrón que Tufekci describe en Tahrir y en Gezi Park."},
+ mont:{n:"Montgomery con wifi",c:"Tufekci",
+  w:"Combinaron la visibilidad digital con una organización paciente. Es lo que Tufekci propone como alternativa al falso debate entre ciberutopía y slacktivismo. Conviene preguntarse qué decisiones lo hicieron posible y cuánto tiempo costó."},
+ invis:{n:"Resistencia que casi nadie ve",c:"Tufekci",
+  w:"Tienen capacidades, pero pocas señales. El movimiento es sólido y resiliente, pero el poder no siente la presión y la opinión pública casi no se entera. Las señales también importan."},
+ apagó:{n:"Se apagó",c:"Tufekci y Coronel y Donoso",
+  w:"Ni señales ni capacidades suficientes. La indignación no encontró forma de sostenerse. Tufekci y Coronel y Donoso coinciden en que la rabia sola no construye canales para hablar con el Estado."}
+};
+
+var st, step, picks, snap=null, path;
+var $=function(i){return document.getElementById(i)};
+function clamp(v){return Math.max(0,Math.min(10,v))}
+function fresh(){st=Object.assign({},M0);step=-1;picks=[];}
+
+function meterHTML(dl){
+  dl=dl||{};
+  function dh(d){return d?'<span class="delta '+(d>0?'up':'down')+'">'+(d>0?'+':'')+d+'</span>':''}
+  var h='<div><div class="m-head"><span>Señales</span><span><b>'+st.sen+'</b>'+dh(dl.sen)+'</span></div>'+
+   '<div class="track" role="img" aria-label="Señales '+st.sen+' de 10"><div class="fill sen" style="width:'+st.sen*10+'%"></div></div><div class="sub">lo que la protesta comunica</div></div>'+
+   '<div><div class="m-head"><span>Capacidades</span><span><b>'+st.cap+'</b>'+dh(dl.cap)+'</span></div>'+
+   '<div class="track" role="img" aria-label="Capacidades '+st.cap+' de 10"><div class="fill cap" style="width:'+st.cap*10+'%"></div></div><div class="sub">la musculatura organizativa</div></div>'+
+   '<div class="days"><b>'+st.dias+'</b><span>días transcurridos</span></div>';
+  $("meters").innerHTML=h;
+}
+function stepsHTML(){var h='<div class="steps" aria-hidden="true">';for(var i=0;i<R.length;i++)h+='<span class="'+(i<step?'on':(i===step?'cur':''))+'"></span>';return h+'</div>';}
+
+function showRound(){
+  var r=R[step],L="ABC";
+  var h=stepsHTML()+'<div class="scene"><div class="kicker">'+r.k+'</div><h2>'+r.t+'</h2><p class="txt">'+r.s+'</p>'+
+   '<div class="concept"><b>Concepto.</b> '+r.c+'</div><p class="kicker">'+r.q+'</p></div><div class="opts" id="opts">';
+  r.o.forEach(function(o,i){h+='<button class="opt" data-i="'+i+'"><span class="L">'+L[i]+'</span><span><span class="t">'+o.t+'</span><span class="d">'+o.d+'</span></span></button>';});
+  h+='</div><div id="after"></div>';
+  $("round").innerHTML=h;$("round").hidden=false;$("intro").hidden=true;$("end").hidden=true;
+  Array.prototype.forEach.call(document.querySelectorAll(".opt"),function(b){b.addEventListener("click",function(){choose(+b.getAttribute("data-i"))})});
+  meterHTML();window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function choose(i){
+  var r=R[step],o=r.o[i],L="ABC",m=o.m,note="";
+  if(o.cond&&!o.cond(st)){m=o.alt;note='<div class="warnbox"><b>No alcanzó la base.</b> Con capacidades por debajo de 3, la asamblea no pudo respaldar a sus voceros y el gobierno puso en duda su legitimidad.</div>';}
+  var before=Object.assign({},st),dl={};
+  snap={st:Object.assign({},st),n:picks.length};
+  ["sen","cap"].forEach(function(k){var v=clamp(st[k]+(m[k]||0));dl[k]=v-before[k];st[k]=v;});
+  st.dias+=m.dias||0;
+  if((m.dias||0)>=14&&st.sen>0){st.sen=clamp(st.sen-1);dl.sen=st.sen-before.sen;note+='<div class="warnbox"><b>La atención se enfrió.</b> Tardaron '+m.dias+' días y las señales bajaron un punto. Construir capacidades tiene un costo de tiempo.</div>';}
+  picks.push(L[i]);
+  Array.prototype.forEach.call(document.querySelectorAll(".opt"),function(b,j){b.disabled=true;if(j===i)b.classList.add("picked");});
+  meterHTML(dl);
+  var last=step===R.length-1;
+  $("after").innerHTML='<div class="result"><div class="reading"><div class="kicker">Lectura del curso</div><p>'+o.r+'</p></div>'+note+
+   '<div class="row"><button class="primary" id="nextBtn">'+(last?'Ver cómo termina':'Siguiente decisión')+'</button><button class="ghost" id="undoBtn">Cambiar la elección</button></div></div>';
+  $("undoBtn").addEventListener("click",function(){st=snap.st;picks.length=snap.n;showRound();});
+  $("nextBtn").addEventListener("click",function(){last?finish():(step++,showRound())});
+  $("nextBtn").focus();
+}
+
+function ending(){
+  if(picks[2]==="A")return"todo";
+  if(st.sen>=6&&st.cap<=3)return"plaza";
+  if(st.cap>=4&&st.sen>=4)return"mont";
+  if(st.cap>=4)return"invis";
+  return"apagó";
+}
+
+function finish(){
+  var e=END[ending()];
+  meterHTML();
+  var h='<div class="kicker">Final · '+e.c+'</div><h2>'+e.n+'</h2><p class="why">'+e.w+'</p>'+
+   '<p class="kicker">Tomó '+st.dias+' días. Montgomery tardó 381; un hashtag, uno.</p>'+
+   '<div class="concept"><b>Idea central.</b> Las señales valen más cuando las respalda una capacidad. Un movimiento grande sin capacidad parece fuerte, pero no sabe decidir ni negociar.</div>'+
+   '<div class="path">'+picks.map(function(p,i){return'<span title="'+R[i].t+'">'+(i+1)+p+'</span>'}).join("")+'</div>'+
+   '<div><div class="kicker">Para discutir</div><ol class="q"><li>¿Qué decisión compró señales y cuál compró capacidades? ¿Cuál costó más tiempo?</li>'+
+   '<li>¿Qué habría pasado en la decisión 3 si el movimiento hubiera tenido más capacidades desde el principio?</li>'+
+   '<li>¿Cuál de las tres decisiones se parece más a un movimiento que ustedes conocen, en Ecuador o en la región?</li></ol></div>'+
+   '<div class="row"><button class="primary" id="againBtn">Jugar otra vez</button></div>';
+  $("end").innerHTML=h;$("end").hidden=false;$("round").hidden=true;
+  $("againBtn").addEventListener("click",restart);window.scrollTo({top:0,behavior:"smooth"});
+}
+function restart(){fresh();$("end").hidden=true;$("round").hidden=true;$("intro").hidden=false;meterHTML();window.scrollTo({top:0});}
+$("startBtn").addEventListener("click",function(){step=0;showRound();});
+$("resetBtn").addEventListener("click",restart);
+fresh();meterHTML();
+})();
+</script>
+
+</body></html>
